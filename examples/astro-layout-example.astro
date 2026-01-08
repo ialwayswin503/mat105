@@ -1,0 +1,26 @@
+---
+/**
+ * Example: Astro
+ * 
+ * This example demonstrates how to integrate Vercel Web Analytics
+ * in an Astro application.
+ * 
+ * Note: The Analytics component is available in version @vercel/analytics@1.4.0
+ * and later. For earlier versions, configure the webAnalytics property in
+ * astro.config.mjs instead.
+ */
+
+import Analytics from '@vercel/analytics/astro';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>My Astro Site</title>
+		<Analytics />
+	</head>
+	<body>
+		<h1>Welcome to my site</h1>
+		<slot />
+	</body>
+</html>
