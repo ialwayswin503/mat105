@@ -1,0 +1,34 @@
+h1{
+    text-align: center;
+}
+.pic{
+   width: fit-content;
+   height: fit-content;
+   position: fixed;
+}
+:root {
+  --dynamic-color: #ff0000;
+}
+body{
+  position: relative;
+}
+.back button {
+  background-color: var(--dynamic-color);
+  transition: background-color 0.3s ease;
+  color: rgb(0, 0, 0);
+  border: black;
+  border-width: 5px;
+  font-size: 16px;
+}
+.back{
+  border: 5px;
+}
+
+#follow-image{
+    z-index: 99999;
+    position: absolute;
+    width: auto;
+    height: 60px;
+    pointer-events: none;
+    transition: transform 0.2s ease-out;
+}

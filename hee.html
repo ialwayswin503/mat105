@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"/>
+  <title>Duck Chaos - Auto Spawn & Drift</title>
+  <style>
+    .random-duck {
+      position: fixed;
+      pointer-events: none;
+      user-select: none;
+      transition: opacity 1s ease, transform 0.3s ease;
+    }
+    .spin {
+      animation: spin 3s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg);}
+      to { transform: rotate(360deg);}
+    }
+  </style>
+</head>
+<body>
+<h1>I told you not to press it...😈</h1>
+
+<script>
+  const duckSrc = 'pictures/DUCK.gif'; // update path as needed
+  const driftMaxDistance = 40;  // max pixels to drift from original position
+  const driftSpeed = 0.5;       // pixels per frame for drifting movement
+  const numberOfDucks = 90;     // total ducks on screen at once
+
+  function createRandomDuck() {
+    const duck = document.createElement('img');
+    duck.src = duckSrc;
+    duck.classList.add('random-duck');
+
+    // Random size between 20px and 200px height
+    const size = Math.random() * 300 + 20;
+    duck.style.height = size + 'px';
+    duck.style.width = 'auto';
+
+    // Random position within viewport
+    const maxX = window.innerWidth - size;
+    const maxY = window.innerHeight - size;
+    const baseX = Math.random() * maxX;
+    const baseY = Math.random() * maxY;
+
+    // Random rotation
+    const rotation = Math.random() * 360;
+    const spin = Math.random() > 0.5;
+
+    duck.style.left = baseX + 'px';
+    duck.style.top = baseY + 'px';
+    duck.style.transform = `rotate(${rotation}deg)`;
+    if (spin) duck.classList.add('spin');
+
+    document.body.appendChild(duck);
+
+    // Decide if this duck will drift (~50% chance)
+    const willDrift = Math.random() > 0.5;
+
+    if (willDrift) {
+      let currentX = baseX;
+      let currentY = baseY;
+      let targetX = baseX + (Math.random() * driftMaxDistance * 2 - driftMaxDistance);
+      let targetY = baseY + (Math.random() * driftMaxDistance * 2 - driftMaxDistance);
+
+      let drifting = true;
+
+      function drift() {
+        if (!drifting) return;
+
+        const dx = targetX - currentX;
+        const dy = targetY - currentY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+
+        if (dist < driftSpeed) {
+          targetX = baseX + (Math.random() * driftMaxDistance * 2 - driftMaxDistance);
+          targetY = baseY + (Math.random() * driftMaxDistance * 2 - driftMaxDistance);
+        } else {
+          currentX += (dx / dist) * driftSpeed;
+          currentY += (dy / dist) * driftSpeed;
+          duck.style.left = currentX + 'px';
+          duck.style.top = currentY + 'px';
+        }
+
+        requestAnimationFrame(drift);
+      }
+
+      requestAnimationFrame(drift);
+
+      // Stop drifting and respawn after random time
+      setTimeout(() => {
+        drifting = false;
+        duck.style.opacity = 0;
+        setTimeout(() => {
+          duck.remove();
+          createRandomDuck();
+        }, 1000);
+      }, 4000 + Math.random() * 6000);
+
+    } else {
+      // No drifting, just fade and respawn
+      setTimeout(() => {
+        duck.style.opacity = 0;
+        setTimeout(() => {
+          duck.remove();
+          createRandomDuck();
+        }, 1000);
+      }, 4000 + Math.random() * 6000);
+    }
+  }
+
+  // Spawn initial ducks on page load
+  for(let i = 0; i < numberOfDucks; i++) {
+    createRandomDuck();
+  }
+</script>
+<style>
+  :root{
+    background-color: transparent;
+  }
+  html{
+      background: linear-gradient(
+        to right,
+        rgb(250,78,10),
+        rgb(247,12,204),
+        rgb(0,106,255),
+        rgb(248,48,255),
+        rgb(250,78,10)
+    );
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: change 0.5s linear infinite;
+}
+@keyframes change{
+    0%{
+        background-position: 200% 50%;
+        }
+    100%{
+        background-position: 0% 50%;
+        }
+}
+h1{
+  z-index:99999;
+}
+  </style>
+</body>
+</html>
+
