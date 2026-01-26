@@ -1,0 +1,26 @@
+<!--
+Example: Plain HTML
+
+This example demonstrates how to integrate Vercel Web Analytics
+in a plain HTML site.
+
+Note: When using the HTML implementation, there is no need to install
+the @vercel/analytics package. However, there is no route support.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+    <h1>Welcome to my website</h1>
+    <p>Your content here</p>
+</body>
+</html>
